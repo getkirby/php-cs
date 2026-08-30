@@ -1,0 +1,63 @@
+# Kirby Coding Standards
+
+The shared [PHP CS Fixer](https://cs.symfony.com) code style for Kirby
+repositories, so that the rule set lives in one place instead of being
+copied and slowly drifting apart.
+
+## Usage
+
+Add a `.php-cs-fixer.dist.php` that only describes what to look at:
+
+```php
+<?php
+
+return Kirby\CodingStandards\Config::create()->setFinder(
+	PhpCsFixer\Finder::create()
+		->exclude('dependencies')
+		->in(__DIR__)
+);
+```
+
+and run it through [cpx](https://github.com/RedExplosion/cpx), which keeps
+the tool and the rules out of the project's `vendor` directory:
+
+```json
+"scripts": {
+	"fix": "cpx getkirby/coding-standards:^1.0 kirby-cs fix"
+}
+```
+
+`Config::create(risky: false)` leaves out the rules that can change
+behaviour.
+
+## Rule sets
+
+| Set                   | Contents                                          |
+| --------------------- | ------------------------------------------------- |
+| `@Kirby/style`        | `@PSR12` plus the Kirby rules                      |
+| `@Kirby/style:risky`  | the above plus rules that may change behaviour     |
+
+Several rules deliberately override `@PSR12` — `declare_equal_normalize`,
+`new_with_parentheses`, `ordered_class_elements`, `ordered_imports` and
+`statement_indentation`. They are not duplicates.
+
+## Custom rules
+
+Three rules are not available upstream:
+
+| Rule                                  | Purpose                                                                                                  |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `Kirby/class_block_separation`         | Blank line between trait imports, constants and each property block                                        |
+| `Kirby/fully_qualified_strict_types`   | Shortens class names, but only in namespaced files, so templates keep working                              |
+| `Kirby/phpdoc_no_redundant_types`      | Drops `@param` types that only repeat the native type hint, keeping the description                        |
+
+`Kirby/phpdoc_no_redundant_types` produces type-less `@param $name Description`
+tags. Anything that generates documentation from the source needs to read
+`getTypelessParamTagValues()` as well, or those descriptions are lost.
+
+## Tests
+
+```
+composer install
+vendor/bin/phpunit
+```

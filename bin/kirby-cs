@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+use PhpCsFixer\Console\Application;
+
+// the package's own vendor dir when run through cpx,
+// the host project's when required as a dependency
+foreach ([
+	dirname(__DIR__) . '/vendor/autoload.php',
+	dirname(__DIR__, 3) . '/autoload.php'
+] as $autoloader) {
+	if (is_file($autoloader) === true) {
+		require_once $autoloader;
+		break;
+	}
+}
+
+if (class_exists(Application::class) === false) {
+	fwrite(STDERR, "PHP CS Fixer could not be autoloaded.\n");
+	exit(1);
+}
+
+exit((new Application())->run());
