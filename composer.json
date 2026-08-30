@@ -17,5 +17,8 @@
 	"bin": ["bin/kirby-cs"],
 	"config": {
 		"sort-packages": true
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^12.0"
 	}
 }

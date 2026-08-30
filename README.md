@@ -1,8 +1,7 @@
 # Kirby PHP Code Style
 
 The shared [PHP CS Fixer](https://cs.symfony.com) code style for Kirby's PHP
-repositories, so that the rule set lives in one place instead of being
-copied and slowly drifting apart.
+repositories.
 
 ## Usage
 
@@ -43,7 +42,7 @@ Several rules deliberately override `@PSR12` — `declare_equal_normalize`,
 
 ## Custom rules
 
-Three rules are not available upstream:
+This package also adds three custom rules:
 
 | Rule                                 | Purpose                                                                             |
 | ------------------------------------ | ----------------------------------------------------------------------------------- |
@@ -51,13 +50,12 @@ Three rules are not available upstream:
 | `Kirby/fully_qualified_strict_types` | Shortens class names, but only in namespaced files, so templates keep working       |
 | `Kirby/phpdoc_no_redundant_types`    | Drops `@param` types that only repeat the native type hint, keeping the description |
 
-`Kirby/phpdoc_no_redundant_types` produces type-less `@param $name Description`
-tags. Anything that generates documentation from the source needs to read
-`getTypelessParamTagValues()` as well, or those descriptions are lost.
-
 ## Tests
 
 ```
 composer install
 vendor/bin/phpunit
 ```
+
+- `tests/fixtures` holds one `.in.php`/`.out.php` pair per case for the custom fixers alone, picked by the file name prefix (`block-`, `phpdoc-`, `shorten-`).
+- `tests/integration` holds pairs that go through the whole rule set, which is where the custom rules and the upstream ones have to agree.

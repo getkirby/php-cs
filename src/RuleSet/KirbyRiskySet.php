@@ -5,8 +5,8 @@ namespace Kirby\PhpCs\RuleSet;
 use PhpCsFixer\RuleSet\AbstractRuleSetDefinition;
 
 /**
- * The rules on top of `@Kirby/style` that can change behaviour and so need
- * `setRiskyAllowed(true)`
+ * The rules on top of `@Kirby/style` that can change behaviour 
+ * and so need `setRiskyAllowed(true)`
  */
 final class KirbyRiskySet extends AbstractRuleSetDefinition
 {

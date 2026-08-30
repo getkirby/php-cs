@@ -6,11 +6,6 @@ use PhpCsFixer\RuleSet\AbstractRuleSetDefinition;
 
 /**
  * The shared Kirby PHP code style.
- *
- * Some of these deliberately override `@PSR12`, which is applied first:
- * `declare_equal_normalize`, `new_with_parentheses`, `ordered_class_elements`,
- * `ordered_imports` and `statement_indentation`. Do not remove them as
- * duplicates.
  */
 final class KirbySet extends AbstractRuleSetDefinition
 {
