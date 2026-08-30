@@ -36,6 +36,8 @@ final class KirbySet extends AbstractRuleSetDefinition
 				'syntax' => 'short'
 			],
 			'assign_null_coalescing_to_coalesce_equal' => true,
+			'attribute_block_no_spaces' => true,
+			'attribute_empty_parentheses' => true,
 			'cast_spaces' => [
 				'space' => 'none'
 			],
@@ -48,6 +50,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 					'case' => 'none'
 				]
 			],
+			'class_reference_name_casing' => true,
 			'combine_consecutive_issets' => true,
 			'combine_consecutive_unsets' => true,
 			'concat_space' => [
@@ -56,12 +59,21 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'declare_equal_normalize' => [
 				'space' => 'single'
 			],
+			'declare_parentheses' => true,
+			'empty_loop_body' => [
+				'style' => 'braces'
+			],
 			'include' => true,
 			'Kirby/class_block_separation' => true,
 			'Kirby/fully_qualified_strict_types' => [
 				'import_symbols' => true
 			],
 			'Kirby/phpdoc_no_redundant_types' => true,
+			'lambda_not_used_import' => true,
+			'linebreak_after_opening_tag' => true,
+			'list_syntax' => [
+				'syntax' => 'short'
+			],
 			'magic_constant_casing' => true,
 			'magic_method_casing' => true,
 			'method_chaining_indentation' => true,
@@ -77,7 +89,9 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'no_mixed_echo_print' => [
 				'use' => 'echo'
 			],
+			'no_redundant_readonly_property' => true,
 			'no_short_bool_cast' => true,
+			'no_singleline_whitespace_before_semicolons' => true,
 			'no_superfluous_elseif' => true,
 			'no_superfluous_phpdoc_tags' => [
 				'allow_unused_params' => true
@@ -121,6 +135,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'ordered_imports' => [
 				'sort_algorithm' => 'alpha'
 			],
+			'ordered_interfaces' => true,
 			'ordered_types' => [
 				'sort_algorithm' => 'none',
 				'null_adjustment' => 'always_last'
@@ -132,14 +147,38 @@ final class KirbySet extends AbstractRuleSetDefinition
 				'align' => 'left'
 			],
 			'phpdoc_indent' => true,
+			'phpdoc_inline_tag_normalizer' => true,
+			'phpdoc_no_access' => true,
+			'phpdoc_no_duplicate_types' => true,
+			'phpdoc_no_package' => true,
+			'phpdoc_no_useless_inheritdoc' => true,
+			'phpdoc_order_by_value' => true,
 			'phpdoc_param_order' => true,
+			'phpdoc_return_self_reference' => true,
 			'phpdoc_scalar' => true,
+			'phpdoc_single_line_var_spacing' => true,
+			'phpdoc_tag_casing' => true,
+			'phpdoc_tag_type' => [
+				'tags' => [
+					'inheritDoc' => 'inline'
+				]
+			],
 			'phpdoc_trim' => true,
+			'phpdoc_types' => true,
+			'phpdoc_var_annotation_correct_order' => true,
+			'phpdoc_var_without_name' => true,
+			'return_to_yield_from' => true,
+			'simple_to_complex_string_variable' => true,
 			'single_line_comment_style' => true,
 			'single_quote' => true,
+			'space_after_semicolon' => [
+				'remove_in_empty_for_expressions' => true
+			],
+			'standardize_not_equals' => true,
 			'statement_indentation' => [
 				'stick_comment_to_next_continuous_control_statement' => true
 			],
+			'switch_continue_to_break' => true,
 			'ternary_to_null_coalescing' => true,
 			'trim_array_spaces' => true,
 			'type_declaration_spaces' => true,
