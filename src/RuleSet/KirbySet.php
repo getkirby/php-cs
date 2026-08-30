@@ -33,6 +33,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'assign_null_coalescing_to_coalesce_equal' => true,
 			'attribute_block_no_spaces' => true,
 			'attribute_empty_parentheses' => true,
+			'blank_line_after_opening_tag' => false,
 			'cast_spaces' => [
 				'space' => 'none'
 			],
@@ -63,9 +64,14 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'Kirby/fully_qualified_strict_types' => [
 				'import_symbols' => true
 			],
+			'Kirby/no_blank_lines_after_phpdoc' => true,
+			'Kirby/no_multiple_statements_per_line' => true,
 			'Kirby/phpdoc_no_redundant_types' => true,
+			'Kirby/statement_indentation' => [
+				'stick_comment_to_next_continuous_control_statement' => true
+			],
 			'lambda_not_used_import' => true,
-			'linebreak_after_opening_tag' => true,
+			'linebreak_after_opening_tag' => false,
 			'list_syntax' => [
 				'syntax' => 'short'
 			],
@@ -76,7 +82,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'native_function_casing' => true,
 			'native_type_declaration_casing' => true,
 			'new_with_parentheses' => true,
-			'no_blank_lines_after_phpdoc' => true,
+			'no_blank_lines_after_phpdoc' => false,
 			'no_empty_comment' => true,
 			'no_empty_phpdoc' => true,
 			'no_empty_statement' => true,
@@ -84,6 +90,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'no_mixed_echo_print' => [
 				'use' => 'echo'
 			],
+			'no_multiple_statements_per_line' => false,
 			'no_redundant_readonly_property' => true,
 			'no_short_bool_cast' => true,
 			'no_singleline_whitespace_before_semicolons' => true,
@@ -122,7 +129,6 @@ final class KirbySet extends AbstractRuleSetDefinition
 					'construct',
 					'destruct',
 					'magic',
-					'phpunit',
 					'method'
 				],
 				'sort_algorithm' => 'alpha'
@@ -170,9 +176,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 				'remove_in_empty_for_expressions' => true
 			],
 			'standardize_not_equals' => true,
-			'statement_indentation' => [
-				'stick_comment_to_next_continuous_control_statement' => true
-			],
+			'statement_indentation' => false,
 			'switch_continue_to_break' => true,
 			'ternary_to_null_coalescing' => true,
 			'trim_array_spaces' => true,

@@ -83,7 +83,7 @@ class IntegrationTest extends TestCase
 		$cases = [];
 
 		foreach (glob(__DIR__ . '/integration/*.in.php') as $input) {
-			$name = basename($input, '.in.php');
+			$name         = basename($input, '.in.php');
 			$cases[$name] = [$input, dirname($input) . '/' . $name . '.out.php'];
 		}
 

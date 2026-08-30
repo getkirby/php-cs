@@ -21,9 +21,6 @@ final class PhpdocNoRedundantTypesFixer extends AbstractFixer
 {
 	/**
 	 * Splits `@param <type> $name <description>` into its parts.
-	 * The type must not start with `&`, `...` or `$`, so that a tag whose
-	 * type is already gone is left alone instead of losing its reference
-	 * or variadic marker on the next pass.
 	 */
 	private const PARAM = '/^(?<pre>\h*\*\h*@param)\h+(?<type>(?![&.$])\S+)(?<name>\h+(?:&\h*)?(?:\.{3})?\$\w+)(?<description>.*)$/s';
 

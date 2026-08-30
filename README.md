@@ -22,7 +22,7 @@ the tool and the rules out of the project's `vendor` directory:
 
 ```json
 "scripts": {
-	"fix": "cpx getkirby/php-cs:^0.1 fix"
+	"fix": "cpx getkirby/php-cs:^0.2 fix"
 }
 ```
 
@@ -36,19 +36,25 @@ behaviour.
 | `@Kirby/style`       | `@PSR12` plus the Kirby rules                  |
 | `@Kirby/style:risky` | the above plus rules that may change behaviour |
 
-Several rules deliberately override `@PSR12` — `declare_equal_normalize`,
-`new_with_parentheses`, `ordered_class_elements`, `ordered_imports` and
-`statement_indentation`. They are not duplicates.
+Several rules deliberately override `@PSR12`: `declare_equal_normalize`,
+`new_with_parentheses`, `ordered_class_elements` and `ordered_imports`.
+
+Four `@PSR12` rules are switched off rather than overridden:
+`statement_indentation`, `no_multiple_statements_per_line` and
+`no_blank_lines_after_phpdoc` are replaced by the `Kirby/` versions,
+`blank_line_after_opening_tag` is dropped along with
+`linebreak_after_opening_tag`.
 
 ## Custom rules
 
-This package also adds three custom rules:
-
-| Rule                                 | Purpose                                                                             |
-| ------------------------------------ | ----------------------------------------------------------------------------------- |
-| `Kirby/class_block_separation`       | Blank line between trait imports, constants and each property block                 |
-| `Kirby/fully_qualified_strict_types` | Shortens class names, but only in namespaced files, so templates keep working       |
-| `Kirby/phpdoc_no_redundant_types`    | Drops `@param` types that only repeat the native type hint, keeping the description |
+| Rule                                    | Purpose                                                                             |
+| --------------------------------------- | ----------------------------------------------------------------------------------- |
+| `Kirby/class_block_separation`          | Blank line between trait imports, constants and each property block                 |
+| `Kirby/fully_qualified_strict_types`    | Shortens class names, but only in namespaced files, so templates keep working       |
+| `Kirby/no_blank_lines_after_phpdoc`     | As upstream, but leaves the docblock a file opens with alone                        |
+| `Kirby/no_multiple_statements_per_line` | As upstream, but only for files that are nothing but PHP                            |
+| `Kirby/phpdoc_no_redundant_types`       | Drops `@param` types that only repeat the native type hint, keeping the description |
+| `Kirby/statement_indentation`           | As upstream, but only for files that are nothing but PHP                            |
 
 ## Tests
 

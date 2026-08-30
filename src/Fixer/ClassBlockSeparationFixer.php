@@ -16,19 +16,15 @@ use SplFileInfo;
 /**
  * Keeps a blank line between the blocks that `ordered_class_elements`
  * creates: trait imports, cases, constants and the property groups.
- *
- * `class_attributes_separation` only knows the element types `const` and
- * `property`, so with `only_if_meta` it neither separates a constant from
- * the first property nor a static property block from an instance one
- * whenever the following member has no docblock, which hides the grouping.
  */
 final class ClassBlockSeparationFixer extends AbstractFixer implements WhitespacesAwareFixerInterface
 {
 	protected function applyFix(SplFileInfo $file, Tokens $tokens): void
 	{
 		$previous = [];
+		$elements = (new TokensAnalyzer($tokens))->getClassyElements();
 
-		foreach ((new TokensAnalyzer($tokens))->getClassyElements() as $index => $element) {
+		foreach ($elements as $index => $element) {
 			$start = $this->start($tokens, $index);
 
 			if ($start === null) {
@@ -130,9 +126,8 @@ final class ClassBlockSeparationFixer extends AbstractFixer implements Whitespac
 	}
 
 	/**
-	 * Returns the first token of a member declaration, including its
-	 * docblock and attributes, or null if it is a promoted constructor
-	 * parameter rather than a member of the class body
+	 * Returns the first token of a member declaration,
+	 * including its docblock and attributes
 	 */
 	private function start(Tokens $tokens, int $index): int|null
 	{

@@ -4,7 +4,10 @@ namespace Kirby\PhpCs;
 
 use Kirby\PhpCs\Fixer\ClassBlockSeparationFixer;
 use Kirby\PhpCs\Fixer\NamespacedFullyQualifiedStrictTypesFixer;
+use Kirby\PhpCs\Fixer\NoBlankLinesAfterPhpdocFixer;
+use Kirby\PhpCs\Fixer\NoMultipleStatementsPerLineFixer;
 use Kirby\PhpCs\Fixer\PhpdocNoRedundantTypesFixer;
+use Kirby\PhpCs\Fixer\StatementIndentationFixer;
 use Kirby\PhpCs\RuleSet\KirbyRiskySet;
 use Kirby\PhpCs\RuleSet\KirbySet;
 use PhpCsFixer\Config as PhpCsFixer;
@@ -34,7 +37,10 @@ final class Config
 			->registerCustomFixers([
 				new ClassBlockSeparationFixer(),
 				new NamespacedFullyQualifiedStrictTypesFixer(),
-				new PhpdocNoRedundantTypesFixer()
+				new NoBlankLinesAfterPhpdocFixer(),
+				new NoMultipleStatementsPerLineFixer(),
+				new PhpdocNoRedundantTypesFixer(),
+				new StatementIndentationFixer()
 			])
 			->registerCustomRuleSets([
 				new KirbySet(),
