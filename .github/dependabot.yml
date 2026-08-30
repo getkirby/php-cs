@@ -1,0 +1,25 @@
+version: 2
+
+updates:
+  # `friendsofphp/php-cs-fixer` is pinned to an exact version on purpose:
+  # every Kirby repo has to format identically, so a bump is a reviewed
+  # change rather than something a version range does silently.
+  - package-ecosystem: composer
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+    groups:
+      actions:
+        patterns:
+          - "*"

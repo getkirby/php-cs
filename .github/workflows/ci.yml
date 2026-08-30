@@ -138,13 +138,17 @@ jobs:
 
       - name: Check for PHP coding style violations
         if: always() && steps.finishPrepare.outcome == 'success'
-        # Use the --dry-run flag in push builds to get a failed CI status
+        # Use the --dry-run flag in push builds to get a failed CI status.
+        # Dependabot PRs get it as well: their GITHUB_TOKEN is read-only, so
+        # the suggester below cannot post and the diff has to carry the signal
         run: >
-          bin/kirby-cs fix --diff ${{ github.event_name != 'pull_request' && '--dry-run' || '' }}
+          bin/kirby-cs fix --diff
+          ${{ (github.event_name != 'pull_request' || github.actor == 'dependabot[bot]') && '--dry-run' || '' }}
 
       - name: Create code suggestions from the coding style changes (on PR only)
         if: >
-          always() && steps.finishPrepare.outcome == 'success' && github.event_name == 'pull_request'
+          always() && steps.finishPrepare.outcome == 'success' &&
+          github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
         uses: reviewdog/action-suggester@4747dbc9f9e37adba0943e681cc20db466642158 # pin@v1
         with:
           tool_name: PHP-CS-Fixer
