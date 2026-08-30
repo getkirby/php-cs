@@ -41,6 +41,11 @@
 	},
 	"scripts": {
 		"analyze": "composer validate --strict --no-check-version --no-check-all",
+		"ci": [
+			"@fix",
+			"@test"
+		],
+		"fix": "bin/kirby-cs fix",
 		"test": "phpunit"
 	}
 }

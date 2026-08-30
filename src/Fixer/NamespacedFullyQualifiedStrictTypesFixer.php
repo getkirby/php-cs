@@ -3,7 +3,6 @@
 namespace Kirby\PhpCs\Fixer;
 
 use PhpCsFixer\AbstractFixer;
-use SplFileInfo;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\Import\FullyQualifiedStrictTypesFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
@@ -11,6 +10,7 @@ use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use SplFileInfo;
 
 /**
  * Shortens fully qualified class names in type declarations and docblocks,
@@ -25,6 +25,11 @@ final class NamespacedFullyQualifiedStrictTypesFixer extends AbstractFixer imple
 		$this->fixer = new FullyQualifiedStrictTypesFixer();
 
 		parent::__construct();
+	}
+
+	protected function applyFix(SplFileInfo $file, Tokens $tokens): void
+	{
+		$this->fixer->fix($file, $tokens);
 	}
 
 	public function configure(array $configuration): void
@@ -72,10 +77,5 @@ final class NamespacedFullyQualifiedStrictTypesFixer extends AbstractFixer imple
 	public function supports(SplFileInfo $file): bool
 	{
 		return $this->fixer->supports($file);
-	}
-
-	protected function applyFix(SplFileInfo $file, Tokens $tokens): void
-	{
-		$this->fixer->fix($file, $tokens);
 	}
 }

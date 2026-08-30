@@ -54,7 +54,7 @@ This package also adds three custom rules:
 
 ```
 composer install
-vendor/bin/phpunit
+composer test
 ```
 
 - `tests/fixtures` holds one `.in.php`/`.out.php` pair per case for the custom fixers alone, picked by the file name prefix (`block-`, `phpdoc-`, `shorten-`).

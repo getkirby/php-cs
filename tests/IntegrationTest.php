@@ -26,33 +26,6 @@ class IntegrationTest extends TestCase
 	 */
 	private static array|null $fixers = null;
 
-	public static function fixtures(): array
-	{
-		$cases = [];
-
-		foreach (glob(__DIR__ . '/integration/*.in.php') as $input) {
-			$name = basename($input, '.in.php');
-			$cases[$name] = [$input, dirname($input) . '/' . $name . '.out.php'];
-		}
-
-		return $cases;
-	}
-
-	#[DataProvider('fixtures')]
-	public function testFixture(string $input, string $expected): void
-	{
-		$this->assertSame(file_get_contents($expected), static::fix($input));
-	}
-
-	/**
-	 * The set must not keep changing a file it has already fixed
-	 */
-	#[DataProvider('fixtures')]
-	public function testIdempotency(string $input, string $expected): void
-	{
-		$this->assertSame(file_get_contents($expected), static::fix($expected));
-	}
-
 	/**
 	 * Applies every rule of the set in priority order, like `Runner` does
 	 */
@@ -103,5 +76,32 @@ class IntegrationTest extends TestCase
 				$config->getLineEnding()
 			))
 			->getFixers();
+	}
+
+	public static function fixtures(): array
+	{
+		$cases = [];
+
+		foreach (glob(__DIR__ . '/integration/*.in.php') as $input) {
+			$name = basename($input, '.in.php');
+			$cases[$name] = [$input, dirname($input) . '/' . $name . '.out.php'];
+		}
+
+		return $cases;
+	}
+
+	#[DataProvider('fixtures')]
+	public function testFixture(string $input, string $expected): void
+	{
+		$this->assertSame(file_get_contents($expected), static::fix($input));
+	}
+
+	/**
+	 * The set must not keep changing a file it has already fixed
+	 */
+	#[DataProvider('fixtures')]
+	public function testIdempotency(string $input, string $expected): void
+	{
+		$this->assertSame(file_get_contents($expected), static::fix($expected));
 	}
 }

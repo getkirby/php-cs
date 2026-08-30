@@ -3,7 +3,6 @@
 namespace Kirby\PhpCs\Fixer;
 
 use PhpCsFixer\AbstractFixer;
-use SplFileInfo;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -12,6 +11,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use SplFileInfo;
 
 /**
  * Removes the type from `@param` tags that only repeat the native
@@ -34,38 +34,6 @@ final class PhpdocNoRedundantTypesFixer extends AbstractFixer
 		$this->fixer = new NoSuperfluousPhpdocTagsFixer();
 		$this->fixer->configure(['allow_unused_params' => true]);
 		parent::__construct();
-	}
-
-	public function getDefinition(): FixerDefinitionInterface
-	{
-		return new FixerDefinition(
-			'Docblock `@param` tags must not repeat the native parameter type.',
-			[
-				new CodeSample(
-					"<?php\n/**\n * @param string \$unit The unit\n */\nfunction f(string \$unit) {}\n"
-				)
-			]
-		);
-	}
-
-	public function getName(): string
-	{
-		return 'Kirby/phpdoc_no_redundant_types';
-	}
-
-	/**
-	 * Runs late, so that class names and tag order are already normalized
-	 */
-	public function getPriority(): int
-	{
-		return -30;
-	}
-
-	public function isCandidate(Tokens $tokens): bool
-	{
-		return
-			$tokens->isTokenKindFound(T_DOC_COMMENT) === true &&
-			$tokens->isTokenKindFound(T_FUNCTION) === true;
 	}
 
 	protected function applyFix(SplFileInfo $file, Tokens $tokens): void
@@ -128,6 +96,38 @@ final class PhpdocNoRedundantTypesFixer extends AbstractFixer
 				$tokens[$index] = new Token([T_DOC_COMMENT, $doc->getContent()]);
 			}
 		}
+	}
+
+	public function getDefinition(): FixerDefinitionInterface
+	{
+		return new FixerDefinition(
+			'Docblock `@param` tags must not repeat the native parameter type.',
+			[
+				new CodeSample(
+					"<?php\n/**\n * @param string \$unit The unit\n */\nfunction f(string \$unit) {}\n"
+				)
+			]
+		);
+	}
+
+	public function getName(): string
+	{
+		return 'Kirby/phpdoc_no_redundant_types';
+	}
+
+	/**
+	 * Runs late, so that class names and tag order are already normalized
+	 */
+	public function getPriority(): int
+	{
+		return -30;
+	}
+
+	public function isCandidate(Tokens $tokens): bool
+	{
+		return
+			$tokens->isTokenKindFound(T_DOC_COMMENT) === true &&
+			$tokens->isTokenKindFound(T_FUNCTION) === true;
 	}
 
 	/**

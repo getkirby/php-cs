@@ -92,3 +92,60 @@ jobs:
       - name: Validate composer.json
         if: always() && steps.finishPrepare.outcome == 'success'
         run: composer validate --strict --no-check-version --no-check-all
+
+  coding-style:
+    name: Coding Style
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      php: "8.3"
+      extensions: mbstring
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@0f7f1d08e3e32076e51cae65eb0b0c871405b16e # pin@v2
+        with:
+          php-version: ${{ env.php }}
+          extensions: ${{ env.extensions }}
+          coverage: none
+
+      - name: Get Composer cache directory
+        id: composerCache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache dependencies
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # pin@v4
+        with:
+          path: ${{ steps.composerCache.outputs.dir }}
+          key: ${{ runner.os }}-php${{ env.php }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-php${{ env.php }}-composer-
+
+      # the custom fixers live in this package, so the style can only be
+      # checked with the package's own binary, not a standalone php-cs-fixer
+      - name: Install dependencies
+        id: finishPrepare
+        run: composer install --prefer-dist
+
+      - name: Cache analysis data
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # pin@v4
+        with:
+          path: .php-cs-fixer.cache
+          key: coding-style
+
+      - name: Check for PHP coding style violations
+        if: always() && steps.finishPrepare.outcome == 'success'
+        # Use the --dry-run flag in push builds to get a failed CI status
+        run: >
+          bin/kirby-cs fix --diff ${{ github.event_name != 'pull_request' && '--dry-run' || '' }}
+
+      - name: Create code suggestions from the coding style changes (on PR only)
+        if: >
+          always() && steps.finishPrepare.outcome == 'success' && github.event_name == 'pull_request'
+        uses: reviewdog/action-suggester@4747dbc9f9e37adba0943e681cc20db466642158 # pin@v1
+        with:
+          tool_name: PHP-CS-Fixer
+          fail_on_error: "true"

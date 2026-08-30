@@ -13,6 +13,20 @@ use SplFileInfo;
 
 class FixerTest extends TestCase
 {
+	protected static function fixer(string $name): FixerInterface
+	{
+		if (strtok($name, '-') === 'shorten') {
+			$fixer = new NamespacedFullyQualifiedStrictTypesFixer();
+			$fixer->configure(['import_symbols' => true]);
+			return $fixer;
+		}
+
+		return match (strtok($name, '-')) {
+			'block'  => new ClassBlockSeparationFixer(),
+			'phpdoc' => new PhpdocNoRedundantTypesFixer()
+		};
+	}
+
 	public static function fixtures(): array
 	{
 		$cases = [];
@@ -47,19 +61,5 @@ class FixerTest extends TestCase
 
 		$fixer->fix(new SplFileInfo($expected), $tokens);
 		$this->assertSame(file_get_contents($expected), $tokens->generateCode());
-	}
-
-	protected static function fixer(string $name): FixerInterface
-	{
-		if (strtok($name, '-') === 'shorten') {
-			$fixer = new NamespacedFullyQualifiedStrictTypesFixer();
-			$fixer->configure(['import_symbols' => true]);
-			return $fixer;
-		}
-
-		return match (strtok($name, '-')) {
-			'block'  => new ClassBlockSeparationFixer(),
-			'phpdoc' => new PhpdocNoRedundantTypesFixer()
-		};
 	}
 }

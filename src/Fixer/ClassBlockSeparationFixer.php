@@ -3,7 +3,6 @@
 namespace Kirby\PhpCs\Fixer;
 
 use PhpCsFixer\AbstractFixer;
-use SplFileInfo;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -12,6 +11,7 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
+use SplFileInfo;
 
 /**
  * Keeps a blank line between the blocks that `ordered_class_elements`
