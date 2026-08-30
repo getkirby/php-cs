@@ -22,7 +22,7 @@ the tool and the rules out of the project's `vendor` directory:
 
 ```json
 "scripts": {
-	"fix": "cpx getkirby/php-cs:^1.0 fix"
+	"fix": "cpx getkirby/php-cs:^0.1 fix"
 }
 ```
 
