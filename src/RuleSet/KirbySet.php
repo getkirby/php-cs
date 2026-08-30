@@ -1,11 +1,11 @@
 <?php
 
-namespace Kirby\CodingStandards\RuleSet;
+namespace Kirby\PhpCs\RuleSet;
 
 use PhpCsFixer\RuleSet\AbstractRuleSetDefinition;
 
 /**
- * The shared Kirby code style.
+ * The shared Kirby PHP code style.
  *
  * Some of these deliberately override `@PSR12`, which is applied first:
  * `declare_equal_normalize`, `new_with_parentheses`, `ordered_class_elements`,
@@ -16,7 +16,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 {
 	public function getDescription(): string
 	{
-		return 'The Kirby code style.';
+		return 'The Kirby PHP code style.';
 	}
 
 	public function getName(): string

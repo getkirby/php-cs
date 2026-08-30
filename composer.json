@@ -1,6 +1,6 @@
 {
-	"name": "getkirby/coding-standards",
-	"description": "The Kirby code style for PHP CS Fixer",
+	"name": "getkirby/php-cs",
+	"description": "The Kirby PHP code style",
 	"license": "MIT",
 	"type": "library",
 	"keywords": ["kirby", "code style", "php-cs-fixer"],
@@ -11,7 +11,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Kirby\\CodingStandards\\": "src/"
+			"Kirby\\PhpCs\\": "src/"
 		}
 	},
 	"bin": ["bin/kirby-cs"],

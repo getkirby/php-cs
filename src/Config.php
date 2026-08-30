@@ -1,21 +1,21 @@
 <?php
 
-namespace Kirby\CodingStandards;
+namespace Kirby\PhpCs;
 
-use Kirby\CodingStandards\Fixer\ClassBlockSeparationFixer;
-use Kirby\CodingStandards\Fixer\NamespacedFullyQualifiedStrictTypesFixer;
-use Kirby\CodingStandards\Fixer\PhpdocNoRedundantTypesFixer;
-use Kirby\CodingStandards\RuleSet\KirbyRiskySet;
-use Kirby\CodingStandards\RuleSet\KirbySet;
+use Kirby\PhpCs\Fixer\ClassBlockSeparationFixer;
+use Kirby\PhpCs\Fixer\NamespacedFullyQualifiedStrictTypesFixer;
+use Kirby\PhpCs\Fixer\PhpdocNoRedundantTypesFixer;
+use Kirby\PhpCs\RuleSet\KirbyRiskySet;
+use Kirby\PhpCs\RuleSet\KirbySet;
 use PhpCsFixer\Config as PhpCsFixer;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
 /**
- * Creates a PHP CS Fixer config with the Kirby code style applied.
+ * Creates a PHP CS Fixer config with the Kirby PHP code style applied.
  * Each repository only adds its own finder:
  *
  * ```php
- * return Kirby\CodingStandards\Config::create()->setFinder(
+ * return Kirby\PhpCs\Config::create()->setFinder(
  *     PhpCsFixer\Finder::create()->in(__DIR__)
  * );
  * ```

@@ -1,10 +1,10 @@
 <?php
 
-namespace Kirby\CodingStandards\Tests;
+namespace Kirby\PhpCs\Tests;
 
-use Kirby\CodingStandards\Fixer\ClassBlockSeparationFixer;
-use Kirby\CodingStandards\Fixer\NamespacedFullyQualifiedStrictTypesFixer;
-use Kirby\CodingStandards\Fixer\PhpdocNoRedundantTypesFixer;
+use Kirby\PhpCs\Fixer\ClassBlockSeparationFixer;
+use Kirby\PhpCs\Fixer\NamespacedFullyQualifiedStrictTypesFixer;
+use Kirby\PhpCs\Fixer\PhpdocNoRedundantTypesFixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\Attributes\DataProvider;

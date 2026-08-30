@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\CodingStandards\RuleSet;
+namespace Kirby\PhpCs\RuleSet;
 
 use PhpCsFixer\RuleSet\AbstractRuleSetDefinition;
 
@@ -12,7 +12,7 @@ final class KirbyRiskySet extends AbstractRuleSetDefinition
 {
 	public function getDescription(): string
 	{
-		return 'The Kirby code style, including rules that may change behaviour.';
+		return 'The Kirby PHP code style, including rules that may change behaviour.';
 	}
 
 	public function getName(): string

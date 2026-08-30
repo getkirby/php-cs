@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\CodingStandards\Fixer;
+namespace Kirby\PhpCs\Fixer;
 
 use PhpCsFixer\AbstractFixer;
 use SplFileInfo;
