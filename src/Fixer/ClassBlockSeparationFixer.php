@@ -19,6 +19,36 @@ use SplFileInfo;
  */
 final class ClassBlockSeparationFixer extends AbstractFixer implements WhitespacesAwareFixerInterface
 {
+	/**
+	 * Returns the first token after the end of the previous member,
+	 * skipping the comments that still sit on that member's own line
+	 */
+	private function after(Tokens $tokens, int $index): int|null
+	{
+		$line = false;
+
+		for ($i = $index + 1; $i < $tokens->count(); $i++) {
+			$token   = $tokens[$i];
+			$content = $token->getContent();
+
+			if ($token->isWhitespace() === true) {
+				$line = $line || str_contains($content, "\n");
+				continue;
+			}
+
+			// a comment that has not been preceded by a line break yet
+			// trails the previous member and is not part of this one
+			if ($line === false && $token->isComment() === true) {
+				$line = str_contains($content, "\n");
+				continue;
+			}
+
+			return $i;
+		}
+
+		return null;
+	}
+
 	protected function applyFix(SplFileInfo $file, Tokens $tokens): void
 	{
 		$previous = [];
@@ -142,7 +172,7 @@ final class ClassBlockSeparationFixer extends AbstractFixer implements Whitespac
 			}
 
 			if ($tokens[$i]->equalsAny([';', '{', '}']) === true) {
-				return $tokens->getNextNonWhitespace($i);
+				return $this->after($tokens, $i);
 			}
 		}
 
