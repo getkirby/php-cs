@@ -23,7 +23,7 @@ jobs:
 
       - name: Setup PHP cache environment
         id: ext-cache
-        uses: shivammathur/cache-extensions@22e24453af1bf3851994136f122ce065ab828a74 # 1.15.2
+        uses: shivammathur/cache-extensions@2abd2f0f7e31e52e198f67f882dea153f87bc11b # 1.15.3
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
@@ -149,7 +149,7 @@ jobs:
         if: >
           always() && steps.finishPrepare.outcome == 'success' &&
           github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-        uses: reviewdog/action-suggester@8219e3d2e54a63ddecf1318659aa541bd1fa7202 # v1.26.2
+        uses: reviewdog/action-suggester@ac5ce6d94e35c00530447dc63c271e38e4fd36c6 # v1.26.3
         with:
           tool_name: PHP-CS-Fixer
           fail_on_error: "true"
