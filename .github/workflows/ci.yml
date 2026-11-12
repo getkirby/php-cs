@@ -1,155 +1,27 @@
 name: CI
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  tests:
-    name: PHP ${{ matrix.php }}
-
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ["8.3", "8.4", "8.5"]
-    env:
+  php:
+    uses: getkirby/actions/.github/workflows/php.yml@5a2291a578b5304133b7e3106f3bb92f9385bea0 # 0.1.0
+    with:
+      # the fixer refuses PHP versions that it doesn't support yet,
+      # which the tests cover on purpose
+      env: PHP_CS_FIXER_IGNORE_ENV=1
       extensions: mbstring
-      # the fixer refuses to run on PHP versions it does not
-      # officially support yet, which the matrix deliberately covers
-      PHP_CS_FIXER_IGNORE_ENV: 1
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Setup PHP cache environment
-        id: ext-cache
-        uses: shivammathur/cache-extensions@2abd2f0f7e31e52e198f67f882dea153f87bc11b # 1.15.3
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: ${{ env.extensions }}
-          key: php-v1
-
-      - name: Cache PHP extensions
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ${{ steps.ext-cache.outputs.dir }}
-          key: ${{ steps.ext-cache.outputs.key }}
-          restore-keys: ${{ steps.ext-cache.outputs.key }}
-
-      - name: Setup PHP environment
-        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: ${{ env.extensions }}
-          coverage: none
-
-      - name: Setup problem matchers
-        run: |
-          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-      - name: Get Composer cache directory
-        id: composerCache
-        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-
-      - name: Cache dependencies
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ${{ steps.composerCache.outputs.dir }}
-          key: ${{ runner.os }}-php${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-          restore-keys: ${{ runner.os }}-php${{ matrix.php }}-composer-
-
-      - name: Install dependencies
-        id: composerInstall
-        run: composer install --prefer-dist
-
-      - name: Run tests
-        if: always() && steps.composerInstall.outcome == 'success'
-        run: vendor/bin/phpunit
-
-  analysis:
-    name: Analysis
-
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    env:
-      php: "8.3"
-      extensions: mbstring
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Setup PHP environment
-        id: finishPrepare
-        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
-        with:
-          php-version: ${{ env.php }}
-          extensions: ${{ env.extensions }}
-          coverage: none
-          tools: composer:2.9.1
-
-      - name: Validate composer.json
-        if: always() && steps.finishPrepare.outcome == 'success'
-        run: composer validate --strict --no-check-version --no-check-all
-
-  coding-style:
-    name: Coding Style
-
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    env:
-      php: "8.3"
-      extensions: mbstring
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Setup PHP environment
-        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
-        with:
-          php-version: ${{ env.php }}
-          extensions: ${{ env.extensions }}
-          coverage: none
-
-      - name: Get Composer cache directory
-        id: composerCache
-        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-
-      - name: Cache dependencies
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ${{ steps.composerCache.outputs.dir }}
-          key: ${{ runner.os }}-php${{ env.php }}-composer-${{ hashFiles('composer.json') }}
-          restore-keys: ${{ runner.os }}-php${{ env.php }}-composer-
-
-      # the custom fixers live in this package, so the style can only be
-      # checked with the package's own binary, not a standalone php-cs-fixer
-      - name: Install dependencies
-        id: finishPrepare
-        run: composer install --prefer-dist
-
-      - name: Cache analysis data
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: .php-cs-fixer.cache
-          key: coding-style
-
-      - name: Check for PHP coding style violations
-        if: always() && steps.finishPrepare.outcome == 'success'
-        # Use the --dry-run flag in push builds to get a failed CI status.
-        # Dependabot PRs get it as well: their GITHUB_TOKEN is read-only, so
-        # the suggester below cannot post and the diff has to carry the signal
-        run: >
-          bin/kirby-cs fix --diff
-          ${{ (github.event_name != 'pull_request' || github.actor == 'dependabot[bot]') && '--dry-run' || '' }}
-
-      - name: Create code suggestions from the coding style changes (on PR only)
-        if: >
-          always() && steps.finishPrepare.outcome == 'success' &&
-          github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-        uses: reviewdog/action-suggester@ac5ce6d94e35c00530447dc63c271e38e4fd36c6 # v1.26.3
-        with:
-          tool_name: PHP-CS-Fixer
-          fail_on_error: "true"
+      suggestions: true
+    permissions:
+      contents: read
+      # for the code style suggestions on pull requests
+      pull-requests: write
