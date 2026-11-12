@@ -17,12 +17,12 @@ return Kirby\PhpCs\Config::create()->setFinder(
 );
 ```
 
-and run it through [cpx](https://github.com/RedExplosion/cpx), which keeps
+and run it through [cpx](https://github.com/laravel/cpx), which keeps
 the tool and the rules out of the project's `vendor` directory:
 
 ```json
 "scripts": {
-	"fix": "cpx getkirby/php-cs:^0.2 fix"
+	"fix": "cpx getkirby/php-cs:0.2.1 fix"
 }
 ```
 
