@@ -2,17 +2,29 @@
 
 namespace Bar;
 
-class Fox
+class FoxTest extends TestCase
 {
-	public function alpha(): void
+	public function testZulu(): void
 	{
 	}
 
-	public function setup(): void
+	protected function tearDown(): void
 	{
 	}
 
-	public function zulu(): void
+	protected function app(): void
+	{
+	}
+
+	public static function setUpBeforeClass(): void
+	{
+	}
+
+	protected function setUp(): void
+	{
+	}
+
+	public function testAlpha(): void
 	{
 	}
 }

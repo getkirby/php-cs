@@ -129,6 +129,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 					'construct',
 					'destruct',
 					'magic',
+					'phpunit',
 					'method'
 				],
 				'sort_algorithm' => 'alpha'
