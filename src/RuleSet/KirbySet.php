@@ -142,6 +142,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 				'sort_algorithm' => 'none',
 				'null_adjustment' => 'always_last'
 			],
+			'php_unit_attributes' => true,
 			'php_unit_data_provider_method_order' => [
 				'placement' => 'before'
 			],
