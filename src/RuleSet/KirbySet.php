@@ -90,6 +90,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'no_empty_comment' => true,
 			'no_empty_phpdoc' => true,
 			'no_empty_statement' => true,
+			'no_extra_blank_lines' => true,
 			'no_leading_namespace_whitespace' => true,
 			'no_mixed_echo_print' => [
 				'use' => 'echo'
