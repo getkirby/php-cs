@@ -56,6 +56,9 @@ final class KirbySet extends AbstractRuleSetDefinition
 				'space' => 'single'
 			],
 			'declare_parentheses' => true,
+			'echo_tag_syntax' => [
+				'format' => 'short'
+			],
 			'empty_loop_body' => [
 				'style' => 'braces'
 			],
@@ -158,6 +161,9 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'phpdoc_no_duplicate_types' => true,
 			'phpdoc_no_package' => true,
 			'phpdoc_no_useless_inheritdoc' => true,
+			'phpdoc_order' => [
+				'order' => ['param', 'return', 'throws']
+			],
 			'phpdoc_order_by_value' => true,
 			'phpdoc_param_order' => true,
 			'phpdoc_return_self_reference' => true,
@@ -182,6 +188,7 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'single_line_comment_spacing' => true,
 			'single_line_comment_style' => true,
 			'single_quote' => true,
+			'single_trait_insert_per_statement' => true,
 			'space_after_semicolon' => [
 				'remove_in_empty_for_expressions' => true
 			],
@@ -193,6 +200,11 @@ final class KirbySet extends AbstractRuleSetDefinition
 			'type_declaration_spaces' => true,
 			'types_spaces' => true,
 			'whitespace_after_comma_in_array' => true,
+			'yoda_style' => [
+				'equal' => false,
+				'identical' => false,
+				'less_and_greater' => null
+			],
 		];
 	}
 }

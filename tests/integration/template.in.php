@@ -9,4 +9,5 @@ $children = $page->children()->listed();
 
 <?php foreach ($children as $child): ?>
 	<p><?= $child->title() ?></p>
+	<p><?php echo $child->text() ?></p>
 <?php endforeach ?>
