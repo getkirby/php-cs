@@ -14,12 +14,12 @@ class Demo extends Model
 
 	public static array $types = [];
 
+	protected static string $key = 'view';
+
 	public array $data = [];
 
 	protected int $count = 0;
 	private array $cache = [];
-
-	protected static string $key = 'view';
 
 	/**
 	 * Moves a page
